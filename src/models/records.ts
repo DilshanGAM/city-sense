@@ -29,5 +29,5 @@ const RecordSchema = new Schema<IRecord>(
 		},
 	}
 );
-const Record = models.Record || model("Records", RecordSchema);
+const Record = models.Record || model("Record", RecordSchema);
 export default Record;

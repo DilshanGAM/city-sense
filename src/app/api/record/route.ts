@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
 	} catch (error) {
-        console.error(error);
+        console.log(error);
 		return NextResponse.json(
             { message: "Error creating record" },
             { status: 500 }
