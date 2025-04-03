@@ -1,25 +1,22 @@
+export const dynamic = "force-dynamic";
 import connectMongo from "@/lib/connectDB";
 import Record from "@/models/records";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     await connectMongo();
 	const body = await request.json();
 	try {
 		const record = await Record.create(body);
-		return new Response(JSON.stringify(record), {
-			status: 201,
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		return NextResponse.json(
+            { message: "Record created", record },
+            { status: 201 }
+        );
 	} catch (error) {
         console.error(error);
-		return new Response(JSON.stringify({ message: "Error creating record" }), {
-			status: 500,
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		return NextResponse.json(
+            { message: "Error creating record" },
+            { status: 500 }
+        );
 	}
 }
