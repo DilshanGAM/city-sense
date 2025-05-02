@@ -70,7 +70,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full h-full bg-[url('/home.png')] bg-cover bg-no-repeat bg-center flex justify-center lg:items-center overflow-hidden">
+    <div className="w-full h-full  flex justify-center lg:items-center overflow-hidden">
       <div className="w-[350px] h-[500px] backdrop-blur-xl rounded-xl shadow-2xl mt-[50px] lg:mt-0 flex flex-col justify-center items-center">
         {loading ? (
           <Loader />

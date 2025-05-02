@@ -48,8 +48,8 @@ export default function RootLayout({
 		}
 	}, []);
 	return (
-		<div className="w-full h-screen">
-			<header className="w-full h-[80px] bg-white shadow-md flex justify-between items-center px-4 realative">
+		<div className="w-full h-screen bg-[url('/home.png')] bg-cover bg-no-repeat bg-center">
+			<header className="w-full h-[80px] backdrop-blur-3xl text-white shadow-md flex justify-between items-center px-4 realative">
 				<Link href="/" className="flex items-center cursor-pointer z-[50]">
 					<img
 						src="/logo.png"
