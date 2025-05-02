@@ -39,9 +39,11 @@ export default function RootLayout({
 					.catch((err) => {
 						console.log(err);
 						setLoading(false);
+						router.push("/login");
 					});
 			}else{
 				setLoading(false);
+				router.push("/login");
 			}
 		}
 	}, []);
