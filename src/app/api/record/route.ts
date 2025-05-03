@@ -39,6 +39,19 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ message: "Duration between starting date and ending date should be less than 30 days" }, { status: 400 });
         }
     }
+    //summary of records
+    //get total records created between startingDate and endingDate
+    //average temperature of records created between startingDate and endingDate
+    //average humidity of records created between startingDate and endingDate
+    //average noice of records created between startingDate and endingDate
+    //highest temperature of records created between startingDate and endingDate
+    //lowest temperature of records created between startingDate and endingDate
+    //highest humidity of records created between startingDate and endingDate
+    //lowest humidity of records created between startingDate and endingDate
+    //highest noice of records created between startingDate and endingDate
+    //lowest noice of records created between startingDate and endingDate
+
+    
     //get records created between startingDate and endingDate
     const records = await Record.find({
         createdAt: {
@@ -46,9 +59,60 @@ export async function GET(request: NextRequest) {
             $lte: endingDate ? new Date(endingDate) : new Date(),
         },
     }).sort({ createdAt: -1 });
+
+    
+
     if (!records) {
         return NextResponse.json({ message: "No records found" }, { status: 404 });
     }
-    return NextResponse.json({ message: "Records found", records }, { status: 200 });
+    let highestTemperature = 0;
+    let highestHumidity = 0;
+    let highestNoise = 0;
+    let lowestTemperature = 999999;
+    let lowestHumidity = 999999;
+    let lowestNoise = 999999;
+    let totalTemperature = 0;
+    let totalHumidity = 0;
+    let totalNoise = 0;
+    for(let i = 0; i< records.length; i++) {
+        totalTemperature += records[i].temperature;
+        totalHumidity += records[i].humidity;
+        totalNoise += records[i].noice;
+        if(records[i].temperature > highestTemperature) {
+            highestTemperature = records[i].temperature;        
+        }
+        if(records[i].humidity > highestHumidity) {
+            highestHumidity = records[i].humidity;        
+        }
+        if(records[i].noice > highestNoise) {
+            highestNoise = records[i].noice;        
+        } 
+        if(records[i].temperature < lowestTemperature) {
+            lowestTemperature = records[i].temperature;        
+        }
+        if(records[i].humidity < lowestHumidity) {
+            lowestHumidity = records[i].humidity;        
+        }
+        if(records[i].noice < lowestNoise) {
+            lowestNoise = records[i].noice;        
+        }
+    }
+
+    let averageTemperature = totalTemperature/records.length;
+    let averageHumidity = totalHumidity/records.length;
+    let averageNoise = totalNoise/records.length;
+    const summary = {
+        averageTemperature,
+        highestTemperature,
+        lowestTemperature,
+        averageHumidity,
+        highestHumidity,
+        lowestHumidity,
+        averageNoise,
+        highestNoise,
+        lowestNoise,
+    }
+
+    return NextResponse.json({ message: "Records found", records , summary }, { status: 200 });
 
 }

@@ -19,15 +19,36 @@ import {
 export default function Dashboard() {
 	const [loading, setLoading] = useState(true);
 	const [records, setRecords] = useState<any>(null);
+	const [summary, setSummary] = useState<{
+		averageTemperature: number;
+		averageHumidity: number;
+		averageNoise: number;
+		highestTemperature: number;
+		lowestTemperature: number;
+		highestHumidity: number;
+		lowestHumidity: number;
+		highestNoise: number;
+		lowestNoise: number;
+	}>({
+		averageTemperature: 0,
+		averageHumidity: 0,
+		averageNoise: 0,
+		highestTemperature: 0,
+		lowestTemperature: 0,
+		highestHumidity: 0,
+		lowestHumidity: 0,
+		highestNoise: 0,
+		lowestNoise: 0,
+	});
 	const today = new Date();
 	const dayBefore30Days = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
 	const [startingDate, setStartingDate] = useState(dayBefore30Days);
 	const [endingDate, setEndingDate] = useState(today);
-    const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
+	const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
 
 	useEffect(() => {
-        setDeviceWidth(window.innerWidth);
-        console.log(window.innerWidth);
+		setDeviceWidth(window.innerWidth);
+		console.log(window.innerWidth);
 		if (loading) {
 			const token = localStorage.getItem("token");
 			if (token) {
@@ -54,7 +75,7 @@ export default function Dashboard() {
 				setLoading(false);
 			}
 		}
-	}, [loading , window.innerWidth ]);
+	}, [loading, window.innerWidth]);
 
 	return (
 		<div className="w-full h-full flex justify-center items-center flex-col">
@@ -84,12 +105,15 @@ export default function Dashboard() {
 				<Loader />
 			) : (
 				<div className="w-full mt-4">
-					<Tabs defaultValue="account" className="w-full h-[400px] flex justify-center items-center">
+					<Tabs
+						defaultValue="account"
+						className="w-full h-[400px] flex justify-center items-center"
+					>
 						<TabsList>
 							<TabsTrigger value="temperature">Temperature</TabsTrigger>
 							<TabsTrigger value="humidity">Humidity</TabsTrigger>
-                            <TabsTrigger value="noice">Noice</TabsTrigger>
-                            <TabsTrigger value="summary">Summary</TabsTrigger>
+							<TabsTrigger value="noice">Noice</TabsTrigger>
+							<TabsTrigger value="summary">Summary</TabsTrigger>
 						</TabsList>
 						<TabsContent value="temperature">
 							<LineChart
@@ -147,7 +171,7 @@ export default function Dashboard() {
 								<Line type="monotone" dataKey="temperature" stroke="#8884d8" />
 							</LineChart>
 						</TabsContent>
-                        <TabsContent value="humidity">
+						<TabsContent value="humidity">
 							<LineChart
 								width={deviceWidth}
 								height={250}
@@ -203,7 +227,7 @@ export default function Dashboard() {
 								<Line type="monotone" dataKey="humidity" stroke="#8884d8" />
 							</LineChart>
 						</TabsContent>
-                        <TabsContent value="noice">
+						<TabsContent value="noice">
 							<LineChart
 								width={deviceWidth}
 								height={250}
@@ -258,6 +282,28 @@ export default function Dashboard() {
 								<Legend />
 								<Line type="monotone" dataKey="noice" stroke="#8884d8" />
 							</LineChart>
+						</TabsContent>
+						<TabsContent value="summary">
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full p-4">
+								<div className="border rounded-lg shadow p-4 bg-white">
+									<h3 className="font-bold mb-2">Temperature (°C)</h3>
+									<p>Average: {summary.averageTemperature.toFixed(2)}</p>
+									<p>Highest: {summary.highestTemperature}°C</p>
+									<p>Lowest: {summary.lowestTemperature}°C</p>
+								</div>
+								<div className="border rounded-lg shadow p-4 bg-white">
+									<h3 className="font-bold mb-2">Humidity (%)</h3>
+									<p>Average: {summary.averageHumidity.toFixed(2)}</p>
+									<p>Highest: {summary.highestHumidity}%</p>
+									<p>Lowest: {summary.lowestHumidity}%</p>
+								</div>
+								<div className="border rounded-lg shadow p-4 bg-white">
+									<h3 className="font-bold mb-2">Noise (dB)</h3>
+									<p>Average: {summary.averageNoise.toFixed(2)}</p>
+									<p>Highest: {summary.highestNoise} dB</p>
+									<p>Lowest: {summary.lowestNoise} dB</p>
+								</div>
+							</div>
 						</TabsContent>
 					</Tabs>
 				</div>
