@@ -39,20 +39,6 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ message: "Duration between starting date and ending date should be less than 30 days" }, { status: 400 });
         }
     }
-    //summary of records
-    //get total records created between startingDate and endingDate
-    //average temperature of records created between startingDate and endingDate
-    //average humidity of records created between startingDate and endingDate
-    //average noice of records created between startingDate and endingDate
-    //highest temperature of records created between startingDate and endingDate
-    //lowest temperature of records created between startingDate and endingDate
-    //highest humidity of records created between startingDate and endingDate
-    //lowest humidity of records created between startingDate and endingDate
-    //highest noice of records created between startingDate and endingDate
-    //lowest noice of records created between startingDate and endingDate
-
-    
-    //get records created between startingDate and endingDate
     const records = await Record.find({
         createdAt: {
             $gte: startingDate ? new Date(startingDate) : new Date("2023-01-01"),

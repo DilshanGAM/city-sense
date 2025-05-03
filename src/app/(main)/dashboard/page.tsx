@@ -107,7 +107,7 @@ export default function Dashboard() {
 			) : (
 				<div className="w-full mt-4">
 					<Tabs
-						defaultValue="account"
+						defaultValue="temperature"
 						className="w-full h-[400px] flex justify-center items-center"
 					>
 						<TabsList>
