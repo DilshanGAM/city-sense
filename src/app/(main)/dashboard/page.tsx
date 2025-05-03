@@ -68,6 +68,7 @@ export default function Dashboard() {
 					.then((res: any) => {
 						console.log(res);
 						setRecords(res.data.records);
+						setSummary(res.data.summary);
 						setLoading(false);
 					});
 			} else {
